@@ -18,22 +18,34 @@ namespace WarehouseServer.Controllers
             _dbController = dbController;
         }
 
-        public async Task<IActionResult> AddClientOrGetVersion(string clientId, CancellationToken cancellationToken)
+        [HttpPost]
+        [Route(WarehouseControllerRoutes.AddClientOrGetVersion)]
+        public async Task<IActionResult> AddClientOrGetVersion(
+            [FromQuery] string clientId,
+            CancellationToken cancellationToken)
         {
+            int result;
             try
             {
-                await _dbController.AddClientOrGetVersion(clientId, cancellationToken);
+                result = await _dbController.AddClientOrGetVersion(clientId, cancellationToken);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
                 return StatusCode(500);
             }
-            return Ok();
+            return Ok(result);
         }
 
-        public async Task<IActionResult> AddWarehouseRecord(string clientId, WarehouseRecord record, CancellationToken cancellationToken)
+        [HttpPost]
+        [Route(WarehouseControllerRoutes.AddWarehouseRecord)]
+        public async Task<IActionResult> AddWarehouseRecord(
+            [FromQuery] string clientId,
+            [FromQuery] string recordId,
+            [FromQuery] int recordCount,
+            CancellationToken cancellationToken)
         {
+            var record = new WarehouseRecord(recordId, recordCount);
             try
             {
                 await _dbController.AddWarehouseRecord(clientId, record, cancellationToken);

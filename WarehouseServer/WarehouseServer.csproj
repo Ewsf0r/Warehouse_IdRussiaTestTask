@@ -16,4 +16,8 @@
       <ProjectReference Include="..\WarehouseClient\WarehouseClient.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Implementation\" />
+    </ItemGroup>
+
 </Project>
